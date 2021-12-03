@@ -276,6 +276,8 @@ const viewEmployeesByManager = () => {}
 
 const viewEmployeesByDepartment = () => {}
 // Update
-
+const updateRole = () => {
+    
+}
 // Destroy
 
