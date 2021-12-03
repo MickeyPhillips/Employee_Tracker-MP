@@ -21,6 +21,8 @@ const init = () => {
             'View all employees',
             'View all roles',
             'Add department',
+            'Add employee',
+            'Add role',
             'Quit'
         ]
     })
@@ -37,6 +39,12 @@ const init = () => {
                 break
             case 'Add department':
                 addDepartment()
+                break
+            case 'Add employee':
+                addEmployee()
+                break
+            case 'Add role':
+                addRole()
                 break
             case 'Quit':
                 db.end()
@@ -70,6 +78,156 @@ const addDepartment = () => {
             init()
         })
     })
+}
+
+const addEmployee = () => {
+    const sql = `SELECT * FROM employees`
+    db.query(sql, (err,rows) => {
+        if(err){
+            console.log(err)
+        }
+        console.table(rows)
+        inquirer.prompt([
+            {
+                name: 'fname',
+                type: 'input',
+                message: 'First Name: ',
+                validate: fnameInput => {
+                    if(fnameInput){
+                        return true
+                    }
+                    else{
+                        console.log('Enter first name: ')
+                        return false
+                    }
+                }
+            },
+            {
+                name: 'lname',
+                type: 'input',
+                message: 'Last Name: ',
+                validate: lnameInput => {
+                    if(lnameInput){
+                        return true
+                    }
+                    else{
+                        console.log('Enter last name: ')
+                        return false
+                    }
+                }
+            },
+            {
+                name: 'role_ID',
+                type: 'input',
+                message: 'Enter role id: ',
+                validate: roleInput => {
+                    if(roleInput % 1 >= 0){
+                        return true
+                    }
+                    else{
+                        console.log('Enter role id: ')
+                        return false
+                    }
+                }
+            },
+            {
+                name: 'manager_ID',
+                type: 'input',
+                message: 'Enter manager id for employee: ',
+                validate: roleInput => {
+                    if(roleInput % 1 >= 0){
+                        
+                        return true
+                    }
+                    else{
+                        console.log('Enter manager id for employee: ')
+                        return false
+                    }
+                }
+            }
+        ])
+        .then(body => {
+            const params = [body.fname, body.lname, body.role_ID, body.manager_ID]
+            const sql = `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`
+            db.query(sql, params, (err, rows) => {
+                if(err) {
+                    console.log(err)
+                }
+                viewEmployees()
+                //init()
+            })
+        })
+    })
+        
+    
+    
+}
+
+const addRole = () => {
+    const sql = `SELECT * FROM departments`
+    db.query(sql, (err, rows) => {
+        if(err) {
+            console.log(err)
+        }
+        console.table(rows)
+        inquirer.prompt([
+            {
+                name: 'title',
+                type: 'input',
+                message: 'Role title: ',
+                validate: titleInput => {
+                    if(titleInput){
+                        return true
+                    }
+                    else{
+                        console.log('Enter role title: ')
+                        return false
+                    }
+                }
+            },
+            {
+                name: 'salary',
+                type: 'input',
+                message: 'Salary: ',
+                validate: salaryInput => {
+                    if(salaryInput % 1 >= 0){
+                        return true
+                    }
+                    else{
+                        console.log('Enter salary(number without currency symbol): ')
+                        return false
+                    }
+                }
+            },
+            {
+                name: 'department_id',
+                type: 'input',
+                message: 'Enter department ID for the role you want: ',
+                validate: salaryInput => {
+                    if(salaryInput % 1 >= 0){
+                        return true
+                    }
+                    else{
+                        console.log('Enter department ID for the role you want: ')
+                        return false
+                    }
+                }
+            }
+        ])
+        .then(body => {
+            const params = [body.title, body.salary, body.department_id]
+            const sql = `INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?)`
+            db.query(sql, params, (err, rows) => {
+                if(err) {
+                    console.log(err)
+                }
+                viewRoles()
+                init()
+            })
+        })
+        
+    })
+    
 }
 // Read
 const viewEmployees = () => {
