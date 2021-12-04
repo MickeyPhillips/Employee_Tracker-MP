@@ -23,6 +23,7 @@ const init = () => {
             'Add department',
             'Add employee',
             'Add role',
+            'Update employee role',
             'Quit'
         ]
     })
@@ -45,6 +46,9 @@ const init = () => {
                 break
             case 'Add role':
                 addRole()
+                break
+            case 'Update employee role':
+                updateEmployeeRole()
                 break
             case 'Quit':
                 db.end()
@@ -276,7 +280,51 @@ const viewEmployeesByManager = () => {}
 
 const viewEmployeesByDepartment = () => {}
 // Update
-const updateRole = () => {
+const updateEmployeeRole = () => {
+    let sql = `SELECT employees.*, roles.title, departments.name AS department, roles.salary, CONCAT (manager.first_name,' ', manager.last_name) AS manager
+                FROM employees
+                LEFT JOIN roles ON employees.role_id = roles.id
+                LEFT JOIN departments ON roles.department_id = departments.id
+                LEFT JOIN employees manager ON employees.manager_id = manager.id`
+    db.query(sql, (err,rows) => {
+        if(err) {
+            console.log(err)
+        }
+        // console.table(rows)
+        let employeesArr = []
+        rows.forEach((employee) => {
+            employeesArr.push(`${employee.first_name} ${employee.last_name}`)
+        })
+        let sql = `SELECT * FROM roles`
+        db.query(sql, (err,rows) => {
+            if(err) {
+                console.log(err)
+            }
+            console.table(rows)
+            let rolesArr = []
+            rows.forEach((role) => {
+                rolesArr.push(role.title)
+            })
+            inquirer.prompt([
+                {
+                    name: 'employeeC',
+                    type: 'list',
+                    message: 'Choose Employee',
+                    choices: employeesArr
+                },
+                {
+                    name: 'roleC',
+                    type: 'list',
+                    message: 'Choose Role',
+                    choices: rolesArr
+                }
+            ])
+            .then(params => {
+                console.log(params)
+            })
+        })
+        
+    })
     
 }
 // Destroy
