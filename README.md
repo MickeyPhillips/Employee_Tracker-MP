@@ -3,7 +3,7 @@
   
 
 ## Description
-
+This application allows you to keep track of Departments, Employees, and Roles. You can view and add employees.
 
 
 
@@ -14,4 +14,5 @@
 - Step 4: `node index` to start the application
 
 ## Usage
+<iframe src="https://drive.google.com/file/d/1CFQIbzjZBC_jWiRKt0tqewAgb-mT6WRj/preview" width="640" height="480"></iframe>
  
