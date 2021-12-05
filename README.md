@@ -14,4 +14,4 @@ This application allows you to keep track of Departments, Employees, and Roles. 
 - Step 4: `node index` to start the application
 
 ## Usage
-<a href="https://drive.google.com/file/d/1CFQIbzjZBC_jWiRKt0tqewAgb-mT6WRj/view" target="_blank">Usage Video(The export was to large to make a gif or a mp4 video for github)</a>
+<a href="https://drive.google.com/file/d/1CFQIbzjZBC_jWiRKt0tqewAgb-mT6WRj/view">Usage Video(The export was to large to make a gif or a mp4 video for github)</a>
